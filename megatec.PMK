@@ -1,0 +1,79 @@
+******************************************************************************
+
+                            Program Editor Make File
+                             (c) Peter Koller 1995
+
+******************************************************************************
+^projectname("quePDF");
+
+************************************ Menu's **********************************
+^vars()
+	{
+		ROOT = "e:\UPS";
+		MODULE = "megatec";
+		PRJROOT = $ROOT"\DRIVERS\"$MODULE;
+	}
+
+********************************* Set Project root ***************************
+^projectroot($PRJROOT);
+
+^archive($MODULE);
+
+^filepath($PRJROOT);
+^files()
+    {
+        megatec.pmk;
+    }
+
+********************************* Title Page *********************************
+^out()
+    {
+        @ECHO ³ PM Make Makefile
+        @ECHO ³
+        @ECHO ³ megatec UPS driver
+        @ECHO ³ Make File
+        @ECHO ³
+        @ECHO ³ Copyright ¸ 2005 Peter Koller, Maison Anglais. All Rights Reserved
+        @ECHO ³
+    }
+
+*************************** Make Intermediates *******************************
+
+
+^menudefault()
+    {
+        ($DEBG_ID, $FALSE);
+		($DLL_ID, $TRUE);
+    }
+
+^workpath($PRJROOT);
+^build(..\build\megatec.obj, $Compile, 0)
+    {
+        megatec.c;
+    }
+^build(..\build\msgx.obj, $Compile, 0)
+    {
+        msgx.c;
+    }
+
+^workpath(..\resource);
+^make(driver.res, $Resource, 0)
+	{
+		driver.rc;
+		chip.ico;
+	}
+
+************************** Make Executable ***********************************
+^workpath(..\build);
+^make(megatec.dll, $ResLink, 0)
+    {
+        megatec.obj;
+		msgx.obj;
+		..\resource\driver.res;
+        ..\megatec.def;
+    }
+
+^fileop($ROOT, $copy, 0)
+	{
+		megatec.dll;
+	}

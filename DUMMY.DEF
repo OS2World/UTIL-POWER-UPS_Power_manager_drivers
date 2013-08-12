@@ -1,0 +1,7 @@
+LIBRARY DUMMY INITGLOBAL
+DESCRIPTION '@#Maison des Anglais:1.00 #@ Dummy UPS driver ¸2005 P.Koller, Maison Anglais'
+
+DATA    SINGLE SHARED
+
+EXPORTS UpsStatus             @10
+EXPORTS UpsPortlist           @20
